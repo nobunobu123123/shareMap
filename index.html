@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Google Maps API サンプル</title>
+  </head>
+  <body>
+    <p>僕はここにいます。</p>
+
+    <div id="map" style="width:620px; height:400px"></div>
+    <div id="button">位置情報を共有する！</div>
+
+
+    <script type="text/javascript">
+    
+//ボタンの効果
+　　document.getElementById("button").addEventListener('click', () => {
+  　console.log('ボタン機能してます！');
+   const baseUrl= "https://example.com/search"
+  　navigator.geolocation.getCurrentPosition((position) => {
+    let urlParameter = {
+    Lat:　position.coords.latitude,
+    Lng: position.coords.longitude
+    }
+    let url = baseUrl + "?" +
+    Object.entries(urlParameter)
+        .map((e) => {
+            let key = e[0];
+            let value = encodeURI(e[1]);
+            return `${key}=${value}`;
+        })
+        .join("&");
+        
+console.log(url)
+   })})
+
+ //このinitMapでMapを初期化する。
+    function initMap() {
+      navigator.geolocation.getCurrentPosition((position) => {
+        var mapLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+       var opts = {
+        zoom: 15,
+        center: mapLatLng
+      };
+      //↑　optsで座標のLatlngとzoomを指定しているしていしている。
+      //↓　指定したサイト上の場所にmapを表示をしている。 
+      var map = new google.maps.Map(document.getElementById("map"), opts);
+      var marker = new google.maps.Marker({
+      map : map,             // 対象の地図オブジェクト
+      position : mapLatLng   // 緯度・経度
+      })
+      var marker2 = new google.maps.Marker({
+        map : map,
+        position : google.maps.LatLng(33.59046571814536, 130.39382175135185)
+      })})}
+      
+
+    </script>
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCArcchAlz-NKmJdrRAoBg9Z2tRQ88jLQQ&callback=initMap">
+    </script>
+    <!-- URLの説明。 key=（APIキー）& callback =(Mapを起動する関数名) -->
+  </body>
+</html>
